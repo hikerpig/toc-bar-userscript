@@ -1,19 +1,22 @@
 // ==UserScript==
-// @name        Toc Bar
-// @author      hikerpig
-// @namespace   https://github.com/hikerpig
-// @license     MIT
+// @name              Toc Bar
+// @author            hikerpig
+// @namespace         https://github.com/hikerpig
+// @license           MIT
 // @description       A floating table of content widget
-// @description:zh-CN  在页面右侧展示一个浮动的文章大纲目录
-// @match       *://*/*
-// @grant       none
-// @version     1.0
-// @run-at      document-idle
-// @grant GM_getResourceText
-// @grant GM_addStyle
-// @require https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js
-// @resource TOCBOT_STYLE https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.css
+// @description:zh-CN 在页面右侧展示一个浮动的文章大纲目录
+// @match             *://*/*
+// @grant             none
+// @version           1.0
+// @run-at            document-idle
+// @grant             GM_getResourceText
+// @grant             GM_addStyle
+// @require           https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js
+// @resource          TOCBOT_STYLE https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.css
+// @homepageURL       https://github.com/hikerpig/toc-bar-userscript
+// @downloadURL       https://raw.githubusercontent.com/hikerpig/toc-bar-userscript/master/toc-bar.user.js
 // ==/UserScript==
+
 (function () {
   const SITE_SETTINGS = {
     jianshu: {
