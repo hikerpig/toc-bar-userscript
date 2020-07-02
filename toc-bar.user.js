@@ -41,12 +41,18 @@
     'dev.to': {
       contentSelector: 'article',
       scrollSmoothOffset: -56,
+      shouldShow() {
+        return !location.pathname.startsWith('/search')
+      },
     },
     zcfy: {
       contentSelector: '.markdown-body',
     },
     qq: {
       contentSelector: '.rich_media_content',
+    },
+    'medium.com': {
+      contentSelector: 'article'
     },
   }
 
@@ -88,21 +94,13 @@
   }
 
   /**
-   * @param {Number} len
+   * @param {String} content 
+   * @return {String}
    */
-  const generateRandomStr = (function () {
-    const ALPHABET =
-      '1234567890ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz'
-    const ALPHABET_LENGTH = ALPHABET.length
-    return function (len) {
-      const chars = []
-      for (let i = 0; i < len; i++) {
-        const index = Math.floor(Math.random() * ALPHABET_LENGTH)
-        chars.push(ALPHABET[index])
-      }
-      return chars.join('')
-    }
-  })()
+  function doContentHash(content) {
+    const val = content.split('').reduce((prevHash, currVal) => (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
+    return val.toString(32)
+  }
 
   // ---------------- TocBar ----------------------
   const TOC_BAR_STYLE = `
@@ -114,11 +112,10 @@
   width: 340px;
   font-size: 14px;
   box-sizing: border-box;
-  padding: 10px;
+  padding: 10px 10px 10px 0;
   background: #FEFEFE;
-  box-shadow: 0 1px 1px #DDD;
+  box-shadow: 0 1px 3px #DDD;
   border-radius: 4px;
-  border: 1px solid #DDD;
   transition: width 0.2s ease;
 }
 
@@ -185,6 +182,14 @@
   margin-left: 5px;
 }
 
+.toc-bar a.toc-link {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block;
+  line-height: 1.4;
+}
+
 .flex {
   display: flex;
 }
@@ -198,7 +203,7 @@
   padding-left: 8px;
 }
 
-.toc-list-item:hover > a {
+.toc-list-item > a:hover {
   text-decoration: underline;
 }
 /* end override tocbot */
@@ -320,9 +325,9 @@
           scrollSmoothOffset: options.scrollSmoothOffset || 0,
           // hasInnerContainers: true,
           headingObjectCallback(obj, ele) {
-            // if there is no id on the header element, add a random one
+            // if there is no id on the header element, add one that derived from hash of header title
             if (!ele.id) {
-              const newId = me.generateHeaderId()
+              const newId = me.generateHeaderId(obj, ele)
               ele.setAttribute('id', newId)
               obj.id = newId
             }
@@ -336,8 +341,8 @@
       // console.log('tocbotOptions', tocbotOptions);
       tocbot.init(tocbotOptions)
     },
-    generateHeaderId() {
-      return `tocbar-${generateRandomStr(8)}`
+    generateHeaderId(obj, ele) {
+      return `tocbar-${doContentHash(obj.textContent)}`
     },
     /**
      * @method TocBar
