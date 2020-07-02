@@ -9,16 +9,16 @@
 // @version           1.0.1
 // @match             *://www.jianshu.com/p/*
 // @match             *://cdn2.jianshu.io/p/*
-// @match             *://juejin.im/post/*
-// @match             *://juejin.im/entry/*
-// @match             *://sspai.com/*
 // @match             *://zhuanlan.zhihu.com/p/*
 // @match             *://mp.weixin.qq.com/s*
 // @match             *://cnodejs.org/topic/*
-// @match             *://div.io/topic/*
 // @match             *://www.zcfy.cc/article/*
 // @match             *://dev.to/*
+// @match             *://web.dev/*
 // @match             *://medium.com/*
+// @match             *://css-tricks.com/*
+// @match             *://www.smashingmagazine.com/*
+// @match             *://distill.pub/*
 // @run-at            document-idle
 // @grant             GM_getResourceText
 // @grant             GM_addStyle
@@ -43,12 +43,6 @@
         return location.pathname.startsWith('/p/')
       },
     },
-    sspai: {
-      contentSelector: '.notion-page-content',
-    },
-    juejin: {
-      contentSelector: '.article-content',
-    },
     zcfy: {
       contentSelector: '.markdown-body',
     },
@@ -64,6 +58,18 @@
     },
     'medium.com': {
       contentSelector: 'article'
+    },
+    'css-tricks.com': {
+      contentSelector: 'main'
+    },
+    'distill.pub': {
+      contentSelector: 'body'
+    },
+    'smashingmagazine': {
+      contentSelector: 'article'
+    },
+    'web.dev': {
+      contentSelector: '#content'
     },
   }
 
@@ -124,10 +130,11 @@
   font-size: 14px;
   box-sizing: border-box;
   padding: 10px 10px 10px 0;
-  background: #FEFEFE;
   box-shadow: 0 1px 3px #DDD;
   border-radius: 4px;
   transition: width 0.2s ease;
+  color: #333;
+  background: #FEFEFE;
 }
 
 .toc-bar.toc-bar--collapsed {
@@ -197,8 +204,8 @@
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  display: inline-block;
-  line-height: 1.4;
+  display: block;
+  line-height: 1.6;
 }
 
 .flex {
@@ -212,6 +219,7 @@
 
 .toc>.toc-list li {
   padding-left: 8px;
+  position: static;
 }
 
 .toc-list-item > a:hover {
@@ -345,7 +353,7 @@
             return obj
           },
           headingSelector: 'h1, h2, h3, h4, h5',
-          collapseDepth: 3,
+          collapseDepth: 4,
         },
         options
       )
