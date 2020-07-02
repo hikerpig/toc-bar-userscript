@@ -5,9 +5,20 @@
 // @license           MIT
 // @description       A floating table of content widget
 // @description:zh-CN 在页面右侧展示一个浮动的文章大纲目录
-// @match             *://*/*
 // @grant             none
 // @version           1.0.1
+// @match             *://www.jianshu.com/p/*
+// @match             *://cdn2.jianshu.io/p/*
+// @match             *://juejin.im/post/*
+// @match             *://juejin.im/entry/*
+// @match             *://sspai.com/*
+// @match             *://zhuanlan.zhihu.com/p/*
+// @match             *://mp.weixin.qq.com/s*
+// @match             *://cnodejs.org/topic/*
+// @match             *://div.io/topic/*
+// @match             *://www.zcfy.cc/article/*
+// @match             *://dev.to/*
+// @match             *://medium.com/*
 // @run-at            document-idle
 // @grant             GM_getResourceText
 // @grant             GM_addStyle
@@ -38,18 +49,18 @@
     juejin: {
       contentSelector: '.article-content',
     },
-    'dev.to': {
-      contentSelector: 'article',
-      scrollSmoothOffset: -56,
-      shouldShow() {
-        return !location.pathname.startsWith('/search')
-      },
-    },
     zcfy: {
       contentSelector: '.markdown-body',
     },
     qq: {
       contentSelector: '.rich_media_content',
+    },
+    'dev.to': {
+      contentSelector: 'article',
+      scrollSmoothOffset: -56,
+      shouldShow() {
+        return ['/search', '/top/'].every(s => !location.pathname.startsWith(s))
+      },
     },
     'medium.com': {
       contentSelector: 'article'
