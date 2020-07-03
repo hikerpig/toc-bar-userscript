@@ -5,7 +5,7 @@
 // @license           MIT
 // @description       A floating table of content widget
 // @description:zh-CN 在页面右侧展示一个浮动的文章大纲目录
-// @version           1.0.2
+// @version           1.0.3
 // @match             *://www.jianshu.com/p/*
 // @match             *://cdn2.jianshu.io/p/*
 // @match             *://zhuanlan.zhihu.com/p/*
@@ -72,7 +72,17 @@
       contentSelector: '#content'
     },
     'github.com': {
-      contentSelector: ['#readme', '.repository-content']
+      contentSelector() {
+        const README_SEL = '#readme'
+        const WIKI_CONTENT_SEL = '.repository-content'
+        const matchedSel = [README_SEL, WIKI_CONTENT_SEL].find((sel) => {
+          return !!document.querySelector(README_SEL)
+        })
+
+        if (matchedSel) return matchedSel
+
+        return false
+      }
     },
   }
 
@@ -97,9 +107,14 @@
   function getPageTocOptions() {
     let siteInfo = getSiteInfo()
     if (siteInfo) {
-      const siteSetting = siteInfo.siteSetting
+      let siteSetting = siteInfo.siteSetting
       if (siteSetting.shouldShow && !siteSetting.shouldShow()) {
         return
+      }
+      if (typeof siteSetting.contentSelector === 'function') {
+        const contentSelector = siteSetting.contentSelector()
+        if (!contentSelector) return
+        siteSetting = {...siteSetting, contentSelector}
       }
       console.log('[toc-bar] found site info for', siteInfo.siteName)
       return siteSetting
