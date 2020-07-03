@@ -5,8 +5,7 @@
 // @license           MIT
 // @description       A floating table of content widget
 // @description:zh-CN 在页面右侧展示一个浮动的文章大纲目录
-// @grant             none
-// @version           1.0.1
+// @version           1.0.2
 // @match             *://www.jianshu.com/p/*
 // @match             *://cdn2.jianshu.io/p/*
 // @match             *://zhuanlan.zhihu.com/p/*
@@ -19,6 +18,7 @@
 // @match             *://css-tricks.com/*
 // @match             *://www.smashingmagazine.com/*
 // @match             *://distill.pub/*
+// @match             *://github.com/*/*
 // @run-at            document-idle
 // @grant             GM_getResourceText
 // @grant             GM_addStyle
@@ -71,6 +71,9 @@
     'web.dev': {
       contentSelector: '#content'
     },
+    'github.com': {
+      contentSelector: ['#readme', '.repository-content']
+    },
   }
 
   function getSiteInfo() {
@@ -111,7 +114,7 @@
   }
 
   /**
-   * @param {String} content 
+   * @param {String} content
    * @return {String}
    */
   function doContentHash(content) {
