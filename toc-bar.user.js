@@ -14,7 +14,8 @@
 // @match             *://cnodejs.org/topic/*
 // @match             *://*zcfy.cc/article/*
 // @match             *://juejin.im/entry/*
-// @match             *://dev.to/*
+// @match             *://dev.to/*/*
+// @exclude           *://dev.to/settings/*
 // @match             *://web.dev/*
 // @match             *://medium.com/*
 // @match             *://css-tricks.com/*
@@ -29,6 +30,7 @@
 // @grant             GM_setValue
 // @grant             GM_getValue
 // @require           https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js
+// @icon              https://raw.githubusercontent.com/hikerpig/toc-bar-userscript/master/toc-logo.svg
 // @homepageURL       https://github.com/hikerpig/toc-bar-userscript
 // @downloadURL       https://raw.githubusercontent.com/hikerpig/toc-bar-userscript/master/toc-bar.user.js
 // ==/UserScript==
