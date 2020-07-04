@@ -19,6 +19,7 @@
 // @match             *://www.smashingmagazine.com/*
 // @match             *://distill.pub/*
 // @match             *://github.com/*/*
+// @match             *://developer.mozilla.org/*/docs/*
 // @run-at            document-idle
 // @grant             GM_getResourceText
 // @grant             GM_addStyle
@@ -84,6 +85,9 @@
         return false
       }
     },
+    'developer.mozilla.org': {
+      contentSelector: '#content'
+    }
   }
 
   function getSiteInfo() {
