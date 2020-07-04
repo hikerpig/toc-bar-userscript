@@ -22,9 +22,7 @@
 // @match             *://developer.mozilla.org/*/docs/*
 // @run-at            document-idle
 // @grant             GM_getResourceText
-// @grant             GM_addStyle
 // @require           https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js
-// @resource          TOCBOT_STYLE https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.css
 // @homepageURL       https://github.com/hikerpig/toc-bar-userscript
 // @downloadURL       https://raw.githubusercontent.com/hikerpig/toc-bar-userscript/master/toc-bar.user.js
 // ==/UserScript==
@@ -126,10 +124,6 @@
   }
 
   function loadStyles() {
-    const tocbotCss = GM_getResourceText('TOCBOT_STYLE')
-    if (tocbotCss) {
-      GM_addStyle(tocbotCss)
-    }
   }
 
   /**
@@ -234,21 +228,69 @@
   display: flex;
 }
 
-/* override tocbot */
-.toc-bar .toc {
+/* tocbot related */
+.toc-bar__toc {
   max-height: 80vh;
-}
-
-.toc>.toc-list li {
-  padding-left: 8px;
-  position: static;
 }
 
 .toc-list-item > a:hover {
   text-decoration: underline;
 }
-/* end override tocbot */
+
+.toc-bar__toc > .toc-list {
+  margin: 0;
+  overflow: hidden;
+  position: relative
+}
+
+.toc-bar__toc>.toc-list li {
+  list-style: none;
+  padding-left: 8px;
+  position: static;
+}
+
+a.toc-link {
+  color: currentColor;
+  height: 100%
+}
+
+.is-collapsible {
+  max-height: 1000px;
+  overflow: hidden;
+  transition: all 300ms ease-in-out
+}
+
+.is-collapsed {
+  max-height: 0
+}
+
+.is-position-fixed {
+  position: fixed !important;
+  top: 0
+}
+
+.is-active-link {
+  font-weight: 700
+}
+
+.toc-link::before {
+  background-color: #EEE;
+  content: ' ';
+  display: inline-block;
+  height: inherit;
+  left: 0;
+  margin-top: -1px;
+  position: absolute;
+  width: 2px
+}
+
+.is-active-link::before {
+  background-color: #54BC4B
+}
+/* end tocbot related */
 `
+
+  const TOCBOT_CONTAINTER_CLASS = 'toc-bar__toc'
 
   /**
    * @class
@@ -270,7 +312,7 @@
     // create a container tocbot
     const tocElement = document.createElement('div')
     this.tocElement = tocElement
-    tocElement.classList.add('toc')
+    tocElement.classList.add(TOCBOT_CONTAINTER_CLASS)
     this.element.appendChild(tocElement)
   }
 
@@ -362,7 +404,7 @@
       const tocbotOptions = Object.assign(
         {},
         {
-          tocSelector: '.toc',
+          tocSelector: `.${TOCBOT_CONTAINTER_CLASS}`,
           scrollSmoothOffset: options.scrollSmoothOffset || 0,
           // hasInnerContainers: true,
           headingObjectCallback(obj, ele) {
