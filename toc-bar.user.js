@@ -5,7 +5,7 @@
 // @license           MIT
 // @description       A floating table of content widget
 // @description:zh-CN 在页面右侧展示一个浮动的文章大纲目录
-// @version           1.0.3
+// @version           1.1.0
 // @match             *://www.jianshu.com/p/*
 // @match             *://cdn2.jianshu.io/p/*
 // @match             *://zhuanlan.zhihu.com/p/*
@@ -16,12 +16,13 @@
 // @match             *://web.dev/*
 // @match             *://medium.com/*
 // @match             *://css-tricks.com/*
-// @match             *://www.smashingmagazine.com/*
+// @match             *://www.smashingmagazine.com/*/*
 // @match             *://distill.pub/*
 // @match             *://github.com/*/*
 // @match             *://developer.mozilla.org/*/docs/*
 // @run-at            document-idle
 // @grant             GM_getResourceText
+// @grant             GM_addStyle
 // @require           https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js
 // @homepageURL       https://github.com/hikerpig/toc-bar-userscript
 // @downloadURL       https://raw.githubusercontent.com/hikerpig/toc-bar-userscript/master/toc-bar.user.js
@@ -123,7 +124,12 @@
     }
   }
 
-  function loadStyles() {
+
+  function guessThemeColor() {
+    const meta = document.head.querySelector('meta[name="theme-color"]')
+    if (meta) {
+      return meta.getAttribute('content')
+    }
   }
 
   /**
@@ -138,6 +144,8 @@
   // ---------------- TocBar ----------------------
   const TOC_BAR_STYLE = `
 .toc-bar {
+  --toc-bar-active-color: #54BC4B;
+
   position: fixed;
   z-index: 9000;
   right: 5px;
@@ -240,7 +248,8 @@
 .toc-bar__toc > .toc-list {
   margin: 0;
   overflow: hidden;
-  position: relative
+  position: relative;
+  padding-left: 5px;
 }
 
 .toc-bar__toc>.toc-list li {
@@ -251,26 +260,26 @@
 
 a.toc-link {
   color: currentColor;
-  height: 100%
+  height: 100%;
 }
 
 .is-collapsible {
   max-height: 1000px;
   overflow: hidden;
-  transition: all 300ms ease-in-out
+  transition: all 300ms ease-in-out;
 }
 
 .is-collapsed {
-  max-height: 0
+  max-height: 0;
 }
 
 .is-position-fixed {
   position: fixed !important;
-  top: 0
+  top: 0;
 }
 
 .is-active-link {
-  font-weight: 700
+  font-weight: 700;
 }
 
 .toc-link::before {
@@ -281,11 +290,11 @@ a.toc-link {
   left: 0;
   margin-top: -1px;
   position: absolute;
-  width: 2px
+  width: 2px;
 }
 
 .is-active-link::before {
-  background-color: #54BC4B
+  background-color: var(--toc-bar-active-color);
 }
 /* end tocbot related */
 `
@@ -439,16 +448,22 @@ a.toc-link {
       }
       this.visible = shouldShow
     },
+    refreshStyle() {
+      const themeColor = guessThemeColor()
+      if (themeColor) {
+        this.element.style.setProperty('--toc-bar-active-color', themeColor);
+      }
+    },
   }
   // ----------------end TocBar -------------------
 
   function main() {
     const options = getPageTocOptions()
     if (options) {
-      loadStyles()
 
       const tocBar = new TocBar()
       tocBar.initTocbot(options)
+      tocBar.refreshStyle()
     }
   }
 
