@@ -16,3 +16,13 @@ Currently only tailored for some popular sites. Feel free to tweak the settings 
 ## Acknowledgements
 
 Inspired by [github-toc](https://github.com/Mottie/GitHub-userscripts/blob/master/github-toc.user.js) by [Mottie](https://github.com/Mottie)
+
+# CHANGELOG
+
+# v1.1.0 (2020-07-04)
+
+### Features
+
+* Add header hash functionality ([970dd0a](https://github.com/hikerpig/toc-bar-userscript/commit/970dd0a0a1ac837a7f1163c692b8d5f131ca54cb))
+* guess theme color from document.head meta ([4db05b5](https://github.com/hikerpig/toc-bar-userscript/commit/4db05b5f2a5611cccbddadf6c3344b3de718f30a))
+* remove tocbot style resource, add a modified version to tocbar style ([5ebdde0](https://github.com/hikerpig/toc-bar-userscript/commit/5ebdde0c82ee1234c412b787bac6d985a10d0d98))
