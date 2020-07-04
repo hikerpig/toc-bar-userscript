@@ -11,7 +11,7 @@
 // @match             *://zhuanlan.zhihu.com/p/*
 // @match             *://mp.weixin.qq.com/s*
 // @match             *://cnodejs.org/topic/*
-// @match             *://www.zcfy.cc/article/*
+// @match             *://*zcfy.cc/article/*
 // @match             *://dev.to/*
 // @match             *://web.dev/*
 // @match             *://medium.com/*
@@ -48,6 +48,9 @@
     },
     qq: {
       contentSelector: '.rich_media_content',
+    },
+    'juejin.im': {
+      contentSelector: '.entry-public-main',
     },
     'dev.to': {
       contentSelector: 'article',
@@ -153,7 +156,7 @@
   width: 340px;
   font-size: 14px;
   box-sizing: border-box;
-  padding: 10px 10px 10px 0;
+  padding: 0 10px 10px 0;
   box-shadow: 0 1px 3px #DDD;
   border-radius: 4px;
   transition: width 0.2s ease;
@@ -163,15 +166,13 @@
 
 .toc-bar.toc-bar--collapsed {
   width: 30px;
+  height: 30px;
   padding: 0;
+  overflow: hidden;
 }
 
 .toc-bar--collapsed .toc {
   display: none;
-}
-
-.toc-bar--collapsed .toc-bar__toggle {
-  transform: rotate(90deg);
 }
 
 .toc-bar--collapsed .hidden-when-collapsed {
@@ -206,6 +207,7 @@
 .toc-bar__icon-btn svg {
   max-width: 100%;
   max-height: 100%;
+  vertical-align: top;
 }
 
 .toc-bar__header-left {
@@ -214,9 +216,8 @@
 
 .toc-bar__toggle {
   cursor: pointer;
-  padding: 2px 6px;
+  padding: 8px 8px;
   box-sizing: content-box;
-  transform: rotate(0);
   transition: transform 0.2s ease;
 }
 
@@ -243,6 +244,10 @@
 
 .toc-list-item > a:hover {
   text-decoration: underline;
+}
+
+.toc-list {
+  padding-inline-start: 0;
 }
 
 .toc-bar__toc > .toc-list {
@@ -325,8 +330,22 @@ a.toc-link {
     this.element.appendChild(tocElement)
   }
 
-  const TOC_ICON = `<svg t="1593614506959" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="6049" width="200" height="200"><path d="M128 384h597.333333v-85.333333H128v85.333333z m0 170.666667h597.333333v-85.333334H128v85.333334z m0 170.666666h597.333333v-85.333333H128v85.333333z m682.666667 0h85.333333v-85.333333h-85.333333v85.333333z m0-426.666666v85.333333h85.333333v-85.333333h-85.333333z m0 256h85.333333v-85.333334h-85.333333v85.333334z" p-id="6050"></path></svg>`
   const REFRESH_ICON = `<svg t="1593614403764" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5002" width="200" height="200"><path d="M918 702.8 918 702.8c45.6-98.8 52-206 26-303.6-30-112.4-104-212.8-211.6-273.6L780 23.2l-270.8 70.8 121.2 252.4 50-107.6c72.8 44.4 122.8 114.4 144 192.8 18.8 70.8 14.4 147.6-18.8 219.6-42 91.2-120.8 153.6-210.8 177.6-13.2 3.6-26.4 6-39.6 8l56 115.6c5.2-1.2 10.4-2.4 16-4C750.8 915.2 860 828.8 918 702.8L918 702.8M343.2 793.2c-74-44.4-124.8-114.8-146-194-18.8-70.8-14.4-147.6 18.8-219.6 42-91.2 120.8-153.6 210.8-177.6 14.8-4 30-6.8 45.6-8.8l-55.6-116c-7.2 1.6-14.8 3.2-22 5.2-124 33.2-233.6 119.6-291.2 245.6-45.6 98.8-52 206-26 303.2l0 0.4c30.4 113.2 105.2 214 213.6 274.8l-45.2 98 270.4-72-122-252L343.2 793.2 343.2 793.2M343.2 793.2 343.2 793.2z" p-id="5003"></path></svg>`
+
+  const TOC_ICON = `
+<?xml version="1.0" encoding="utf-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+    viewBox="0 0 1024 1024" style="enable-background:new 0 0 1024 1024;" xml:space="preserve">
+<g>
+  <g>
+    <path d="M835.2,45.9H105.2v166.8l93.2,61.5h115.8H356h30.6v-82.8H134.2v-24.9h286.2v107.6h32.2V141.6H134.2V118h672.1v23.6H486.4
+      v132.5h32V166.5h287.8v24.9H553.8v82.8h114.1H693h225.6V114.5L835.2,45.9z M806.2,93.2H134.2V67.2h672.1v26.1H806.2z"/>
+    <polygon points="449.3,1008.2 668,1008.2 668,268.9 553.8,268.9 553.8,925.4 518.4,925.4 518.4,268.9 486.4,268.9 486.4,925.4
+      452.6,925.4 452.6,268.9 420.4,268.9 420.4,925.4 386.6,925.4 386.6,268.9 356,268.9 356,946.7 		"/>
+  </g>
+</g>
+</svg>
+`
 
   TocBar.prototype = {
     /**
@@ -352,6 +371,7 @@ a.toc-link {
       toggleElement.addEventListener('click', () => {
         this.toggle()
       })
+      this.logoSvg = toggleElement.querySelector('svg')
 
       const refreshElement = header.querySelector('.toc-bar__refresh')
       refreshElement.addEventListener('click', () => {
@@ -441,10 +461,13 @@ a.toc-link {
      */
     toggle(shouldShow = !this.visible) {
       const HIDDEN_CLASS = 'toc-bar--collapsed'
+      const LOGO_HIDDEN_CLASS = 'toc-logo--collapsed'
       if (shouldShow) {
         this.element.classList.remove(HIDDEN_CLASS)
+        this.logoSvg && this.logoSvg.classList.remove(LOGO_HIDDEN_CLASS)
       } else {
         this.element.classList.add(HIDDEN_CLASS)
+        this.logoSvg && this.logoSvg.classList.add(LOGO_HIDDEN_CLASS)
       }
       this.visible = shouldShow
     },
