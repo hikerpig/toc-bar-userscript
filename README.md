@@ -26,6 +26,13 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+# v1.3.0 (2020-07-05)
+
+### Features
+
+* store tocbar position and toggle status using GM_setValue, read them during init
+* add `initialTop` to site setting
+
 # v1.2.0 (2020-07-05)
 
 ### Features

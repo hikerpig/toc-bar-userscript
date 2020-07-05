@@ -6,7 +6,7 @@
 // @license           MIT
 // @description       A floating table of content widget
 // @description:zh-CN 在页面右侧展示一个浮动的文章大纲目录
-// @version           1.2.0
+// @version           1.3.0
 // @match             *://www.jianshu.com/p/*
 // @match             *://cdn2.jianshu.io/p/*
 // @match             *://zhuanlan.zhihu.com/p/*
