@@ -12,6 +12,7 @@
 // @match             *://mp.weixin.qq.com/s*
 // @match             *://cnodejs.org/topic/*
 // @match             *://*zcfy.cc/article/*
+// @match             *://juejin.im/entry/*
 // @match             *://dev.to/*
 // @match             *://web.dev/*
 // @match             *://medium.com/*
@@ -38,7 +39,8 @@
       },
     },
     'zhuanlan.zhihu.com': {
-      contentSelector: '.Post-RichText',
+      contentSelector: 'article',
+      scrollSmoothOffset: -52,
       shouldShow() {
         return location.pathname.startsWith('/p/')
       },
@@ -240,6 +242,7 @@
 /* tocbot related */
 .toc-bar__toc {
   max-height: 80vh;
+  overflow-y: scroll;
 }
 
 .toc-list-item > a:hover {
