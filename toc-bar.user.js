@@ -25,6 +25,8 @@
 // @run-at            document-idle
 // @grant             GM_getResourceText
 // @grant             GM_addStyle
+// @grant             GM_setValue
+// @grant             GM_getValue
 // @require           https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js
 // @homepageURL       https://github.com/hikerpig/toc-bar-userscript
 // @downloadURL       https://raw.githubusercontent.com/hikerpig/toc-bar-userscript/master/toc-bar.user.js
@@ -146,6 +148,26 @@
   function doContentHash(content) {
     const val = content.split('').reduce((prevHash, currVal) => (((prevHash << 5) - prevHash) + currVal.charCodeAt(0))|0, 0);
     return val.toString(32)
+  }
+
+  const POSITION_STORAGE = {
+    cache: null,
+    checkCache() {
+      if (!POSITION_STORAGE.cache) {
+        POSITION_STORAGE.cache = GM_getValue('tocbar-positions', {})
+      }
+    },
+    get(k) {
+      k = k || location.host
+      POSITION_STORAGE.checkCache()
+      return POSITION_STORAGE.cache[k]
+    },
+    set(k, position) {
+      k = k || location.host
+      POSITION_STORAGE.checkCache()
+      POSITION_STORAGE.cache[k] = position
+      GM_setValue('tocbar-positions', POSITION_STORAGE.cache)
+    },
   }
 
   // ---------------- TocBar ----------------------
@@ -336,8 +358,16 @@ a.toc-link {
     tocElement.classList.add(TOCBOT_CONTAINTER_CLASS)
     this.element.appendChild(tocElement)
 
-    if (options.hasOwnProperty('initialTop')) {
+    const cachedPosition = POSITION_STORAGE.get(options.siteName)
+    if (cachedPosition) {
+      this.element.style.top = `${cachedPosition.top}px`
+      this.element.style.right = `${cachedPosition.right}px`
+    } else if (options.hasOwnProperty('initialTop')) {
       this.element.style.top = `${options.initialTop}px`
+    }
+
+    if (GM_getValue('tocbar-hidden', false)) {
+      this.toggle(false)
     }
   }
 
@@ -381,6 +411,7 @@ a.toc-link {
       const toggleElement = header.querySelector('.toc-bar__toggle')
       toggleElement.addEventListener('click', () => {
         this.toggle()
+        GM_setValue('tocbar-hidden', !this.visible)
       })
       this.logoSvg = toggleElement.querySelector('svg')
 
@@ -396,6 +427,8 @@ a.toc-link {
         startPositionY: 0,
         startElementDisToRight: 0,
         isDragging: false,
+        curRight: 0,
+        curTop: 0,
       }
 
       const onMouseMove = (e) => {
@@ -405,6 +438,10 @@ a.toc-link {
         // 要换算为 right 数字
         const newRight = dragState.startElementDisToRight - deltaX
         const newTop = dragState.startPositionY + deltaY
+        Object.assign(dragState, {
+          curTop: newTop,
+          curRight: newRight,
+        })
         // console.table({ newRight, newTop})
         this.element.style.right = `${newRight}px`
         this.element.style.top = `${newTop}px`
@@ -416,6 +453,11 @@ a.toc-link {
         })
         document.body.removeEventListener('mousemove', onMouseMove)
         document.body.removeEventListener('mouseup', onMouseUp)
+
+        POSITION_STORAGE.set(this.options.siteName, {
+          top: dragState.curTop,
+          right: dragState.curRight,
+        })
       }
 
       header.addEventListener('mousedown', (e) => {
