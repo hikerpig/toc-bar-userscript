@@ -1,5 +1,6 @@
 // ==UserScript==
 // @name              Toc Bar
+// @name:zh-CN        Toc Bar, 文章大纲
 // @author            hikerpig
 // @namespace         https://github.com/hikerpig
 // @license           MIT

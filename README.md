@@ -2,12 +2,14 @@
 
 A user script that adds floating widget displaying table of content of current page.
 
-Currently only tailored for some popular sites. Feel free to tweak the settings or open a PR.
+Currently only tailored for some personal most-visited sites. Feel free to tweak the settings or open a PR.
 
 ## ✨Features
 
 - Use [tocbot](https://tscanlin.github.io/tocbot) for toc generation.
-- For some sites, there is no id on header elements so it would be impossible to navigate by clicking the toc link. Toc Bar will generate ids - which are derived from a simple hash of the header textContent, and prefixed with `tocbar-` - for these headers.
+- For some sites, there are no ids on header elements so it would be impossible to navigate by clicking the toc link. Toc Bar will generate ids - which are derived from a simple hash of the header textContent, and prefixed with `tocbar-` - for these headers.
+- A toggle button is offered, if you don't want toc bar to cover current page content.
+- For some sites in SPA mode, if you navigate to another article, there is no easy way detecting url change in userscript, so I add a refresh button to refresh TOC contents.
 
 ## Screenshots
 
@@ -15,7 +17,9 @@ Currently only tailored for some popular sites. Feel free to tweak the settings 
 
 ## Acknowledgements
 
-Inspired by [github-toc](https://github.com/Mottie/GitHub-userscripts/blob/master/github-toc.user.js) by [Mottie](https://github.com/Mottie)
+Inspired by [github-toc](https://github.com/Mottie/GitHub-userscripts/blob/master/github-toc.user.js) by [Mottie](https://github.com/Mottie).
+
+The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font made by [Raymond Larabie](https://www.1001fonts.com/users/typodermic/).
 
 # CHANGELOG
 
