@@ -13,7 +13,10 @@ Currently only tailored for some personal most-visited sites. Feel free to tweak
 
 ## Screenshots
 
+![devto](https://raw.githubusercontent.com/hikerpig/toc-bar-userscript/master/images/screenshot-2.png)
+
 ![zhuanlan-sspai](https://raw.githubusercontent.com/hikerpig/toc-bar-userscript/master/images/screenshot-1.jpg)
+
 
 ## Acknowledgements
 
