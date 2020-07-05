@@ -19,6 +19,12 @@ Inspired by [github-toc](https://github.com/Mottie/GitHub-userscripts/blob/maste
 
 # CHANGELOG
 
+# v1.2.0 (2020-07-05)
+
+### Features
+
+* Add logo, and adjust some styles ([ba90dac](https://github.com/hikerpig/toc-bar-userscript/commit/ba90dac5e46d15701af81ad63c7dfd541a52f0d0))
+
 # v1.1.0 (2020-07-04)
 
 ### Features
