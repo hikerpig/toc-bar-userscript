@@ -88,7 +88,8 @@
         if (matchedSel) return matchedSel
 
         return false
-      }
+      },
+      initialTop: 500,
     },
     'developer.mozilla.org': {
       contentSelector: '#content'
@@ -313,7 +314,9 @@ a.toc-link {
   /**
    * @class
    */
-  function TocBar() {
+  function TocBar(options={}) {
+    this.options = options
+
     // inject style
     GM_addStyle(TOC_BAR_STYLE)
 
@@ -332,6 +335,10 @@ a.toc-link {
     this.tocElement = tocElement
     tocElement.classList.add(TOCBOT_CONTAINTER_CLASS)
     this.element.appendChild(tocElement)
+
+    if (options.hasOwnProperty('initialTop')) {
+      this.element.style.top = `${options.initialTop}px`
+    }
   }
 
   const REFRESH_ICON = `<svg t="1593614403764" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5002" width="200" height="200"><path d="M918 702.8 918 702.8c45.6-98.8 52-206 26-303.6-30-112.4-104-212.8-211.6-273.6L780 23.2l-270.8 70.8 121.2 252.4 50-107.6c72.8 44.4 122.8 114.4 144 192.8 18.8 70.8 14.4 147.6-18.8 219.6-42 91.2-120.8 153.6-210.8 177.6-13.2 3.6-26.4 6-39.6 8l56 115.6c5.2-1.2 10.4-2.4 16-4C750.8 915.2 860 828.8 918 702.8L918 702.8M343.2 793.2c-74-44.4-124.8-114.8-146-194-18.8-70.8-14.4-147.6 18.8-219.6 42-91.2 120.8-153.6 210.8-177.6 14.8-4 30-6.8 45.6-8.8l-55.6-116c-7.2 1.6-14.8 3.2-22 5.2-124 33.2-233.6 119.6-291.2 245.6-45.6 98.8-52 206-26 303.2l0 0.4c30.4 113.2 105.2 214 213.6 274.8l-45.2 98 270.4-72-122-252L343.2 793.2 343.2 793.2M343.2 793.2 343.2 793.2z" p-id="5003"></path></svg>`
@@ -488,7 +495,7 @@ a.toc-link {
     const options = getPageTocOptions()
     if (options) {
 
-      const tocBar = new TocBar()
+      const tocBar = new TocBar(options)
       tocBar.initTocbot(options)
       tocBar.refreshStyle()
     }
