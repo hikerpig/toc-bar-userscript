@@ -22,6 +22,7 @@
 // @match             *://distill.pub/*
 // @match             *://github.com/*/*
 // @match             *://developer.mozilla.org/*/docs/*
+// @match             *://learning.oreilly.com/library/view/*
 // @run-at            document-idle
 // @grant             GM_getResourceText
 // @grant             GM_addStyle
@@ -95,7 +96,10 @@
     },
     'developer.mozilla.org': {
       contentSelector: '#content'
-    }
+    },
+    'learning.oreilly.com': {
+      contentSelector: '#sbo-rt-content'
+    },
   }
 
   function getSiteInfo() {
