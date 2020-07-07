@@ -139,7 +139,6 @@
     }
   }
 
-
   function guessThemeColor() {
     const meta = document.head.querySelector('meta[name="theme-color"]')
     if (meta) {
@@ -174,6 +173,13 @@
       POSITION_STORAGE.cache[k] = position
       GM_setValue('tocbar-positions', POSITION_STORAGE.cache)
     },
+  }
+
+  function isEmpty(input) {
+    if (input) {
+      return Object.keys(input).length > 0
+    }
+    return true
   }
 
   // ---------------- TocBar ----------------------
@@ -365,7 +371,7 @@ a.toc-link {
     this.element.appendChild(tocElement)
 
     const cachedPosition = POSITION_STORAGE.get(options.siteName)
-    if (cachedPosition) {
+    if (!isEmpty(cachedPosition)) {
       this.element.style.top = `${cachedPosition.top}px`
       this.element.style.right = `${cachedPosition.right}px`
     } else if (options.hasOwnProperty('initialTop')) {
