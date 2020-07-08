@@ -26,6 +26,13 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## 1.4.0 (2020-07-08)
+
+* feat: Add match `*://learning.oreilly.com/library/view/*` ([c6648ce](https://github.com/hikerpig/toc-bar-userscript/commit/c6648ce))
+* feat: Add site *://developer.chrome.com/extensions/* ([27eb121](https://github.com/hikerpig/toc-bar-userscript/commit/27eb121))
+* optimize: should ignore empty cachedPosition ([61b0eab](https://github.com/hikerpig/toc-bar-userscript/commit/61b0eab))
+* Add @icon for displaying logo ([c33e258](https://github.com/hikerpig/toc-bar-userscript/commit/c33e258))
+
 # v1.3.0 (2020-07-05)
 
 ### Features
