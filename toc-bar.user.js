@@ -24,6 +24,7 @@
 // @match             *://github.com/*/*
 // @match             *://developer.mozilla.org/*/docs/*
 // @match             *://learning.oreilly.com/library/view/*
+// @match             *://developer.chrome.com/extensions/*
 // @run-at            document-idle
 // @grant             GM_getResourceText
 // @grant             GM_addStyle
@@ -101,6 +102,9 @@
     },
     'learning.oreilly.com': {
       contentSelector: '#sbo-rt-content'
+    },
+    'developer.chrome.com': {
+      contentSelector: 'article'
     },
   }
 
