@@ -26,6 +26,10 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## 1.4.1 (2020-07-10)
+
+* fix: isEmpty dysfunctioning ([8374ceb](https://github.com/hikerpig/toc-bar-userscript/commit/8374ceb))
+
 ## 1.4.0 (2020-07-08)
 
 * feat: Add match `*://learning.oreilly.com/library/view/*` ([c6648ce](https://github.com/hikerpig/toc-bar-userscript/commit/c6648ce))
