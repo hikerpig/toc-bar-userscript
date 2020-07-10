@@ -181,7 +181,7 @@
 
   function isEmpty(input) {
     if (input) {
-      return Object.keys(input).length > 0
+      return Object.keys(input).length === 0
     }
     return true
   }
