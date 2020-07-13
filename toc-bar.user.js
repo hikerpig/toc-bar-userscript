@@ -10,6 +10,7 @@
 // @match             *://www.jianshu.com/p/*
 // @match             *://cdn2.jianshu.io/p/*
 // @match             *://zhuanlan.zhihu.com/p/*
+// @match             *://www.zhihu.com/pub/reader/*
 // @match             *://mp.weixin.qq.com/s*
 // @match             *://cnodejs.org/topic/*
 // @match             *://*zcfy.cc/article/*
@@ -51,6 +52,10 @@
       shouldShow() {
         return location.pathname.startsWith('/p/')
       },
+    },
+    'www.zhihu.com': {
+      contentSelector: '.reader-chapter-content',
+      scrollSmoothOffset: -52,
     },
     zcfy: {
       contentSelector: '.markdown-body',
@@ -282,7 +287,7 @@
 /* tocbot related */
 .toc-bar__toc {
   max-height: 80vh;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .toc-list-item > a:hover {
