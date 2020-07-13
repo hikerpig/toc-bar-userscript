@@ -542,6 +542,15 @@ a.toc-link {
       } else {
         this.element.classList.add(HIDDEN_CLASS)
         this.logoSvg && this.logoSvg.classList.add(LOGO_HIDDEN_CLASS)
+
+        const right = parseInt(this.element.style.right)
+        if (right && right < 0) {
+          this.element.style.right = "0px"
+          const cachedPosition = POSITION_STORAGE.cache
+          if (!isEmpty(cachedPosition)) {
+            POSITION_STORAGE.set(null, {...cachedPosition, right: 0 })
+          }
+        }
       }
       this.visible = shouldShow
     },
