@@ -26,11 +26,16 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
-## 1.4.1 (2020-07-10)
+## v1.4.2 (2020-07-13)
+
+* fix: Toc trigger shrinks outside page when toggling off ([4722d05](https://github.com/hikerpig/toc-bar-userscript/commit/4722d05))
+* feat: Add match `*://www.zhihu.com/pub/reader/*`, and fix a little style ([36269a5](https://github.com/hikerpig/toc-bar-userscript/commit/36269a5))
+
+## v1.4.1 (2020-07-10)
 
 * fix: isEmpty dysfunctioning ([8374ceb](https://github.com/hikerpig/toc-bar-userscript/commit/8374ceb))
 
-## 1.4.0 (2020-07-08)
+## v1.4.0 (2020-07-08)
 
 * feat: Add match `*://learning.oreilly.com/library/view/*` ([c6648ce](https://github.com/hikerpig/toc-bar-userscript/commit/c6648ce))
 * feat: Add site *://developer.chrome.com/extensions/* ([27eb121](https://github.com/hikerpig/toc-bar-userscript/commit/27eb121))
