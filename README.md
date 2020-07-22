@@ -26,6 +26,10 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## v1.4.3 (2020-07-22)
+
+* feat: tocbar style top should not be less than 0 ([8ffc3c1](https://github.com/hikerpig/toc-bar-userscript/commit/8ffc3c1))
+
 ## v1.4.2 (2020-07-13)
 
 * fix: Toc trigger shrinks outside page when toggling off ([4722d05](https://github.com/hikerpig/toc-bar-userscript/commit/4722d05))
