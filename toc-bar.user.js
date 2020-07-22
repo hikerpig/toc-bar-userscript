@@ -6,7 +6,7 @@
 // @license           MIT
 // @description       A floating table of content widget
 // @description:zh-CN 在页面右侧展示一个浮动的文章大纲目录
-// @version           1.4.2
+// @version           1.4.3
 // @match             *://www.jianshu.com/p/*
 // @match             *://cdn2.jianshu.io/p/*
 // @match             *://zhuanlan.zhihu.com/p/*
@@ -381,7 +381,7 @@ a.toc-link {
 
     const cachedPosition = POSITION_STORAGE.get(options.siteName)
     if (!isEmpty(cachedPosition)) {
-      this.element.style.top = `${cachedPosition.top}px`
+      this.element.style.top = `${Math.max(0, cachedPosition.top)}px`
       this.element.style.right = `${cachedPosition.right}px`
     } else if (options.hasOwnProperty('initialTop')) {
       this.element.style.top = `${options.initialTop}px`
@@ -458,7 +458,7 @@ a.toc-link {
         const deltaY = e.pageY - dragState.startMouseY
         // 要换算为 right 数字
         const newRight = dragState.startElementDisToRight - deltaX
-        const newTop = dragState.startPositionY + deltaY
+        const newTop = Math.max(0, dragState.startPositionY + deltaY)
         Object.assign(dragState, {
           curTop: newTop,
           curRight: newRight,
