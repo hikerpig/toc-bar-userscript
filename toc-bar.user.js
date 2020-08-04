@@ -19,6 +19,8 @@
 // @exclude           *://dev.to/settings/*
 // @match             *://web.dev/*
 // @match             *://medium.com/*
+// @match             *://www.infoq.cn/article/*
+// @match             *://towardsdatascience.com/*
 // @match             *://css-tricks.com/*
 // @match             *://www.smashingmagazine.com/*/*
 // @match             *://distill.pub/*
@@ -76,6 +78,9 @@
     'medium.com': {
       contentSelector: 'article'
     },
+    'towardsdatascience.com': {
+      contentSelector: 'article'
+    },
     'css-tricks.com': {
       contentSelector: 'main'
     },
@@ -111,6 +116,10 @@
     'developer.chrome.com': {
       contentSelector: 'article'
     },
+    'www.infoq.cn': {
+      contentSelector: '.article-main',
+      scrollSmoothOffset: -107
+    }
   }
 
   function getSiteInfo() {
