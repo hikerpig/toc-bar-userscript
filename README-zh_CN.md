@@ -1,6 +1,6 @@
 # Toc Bar
 
-一个油猴脚本，在页面中插入一个显示当前内容大纲的浮动组件，可[去 greasefork 下载](https://greasyfork.org/zh-CN/scripts/406337-toc-bar)。
+一个油猴脚本，在页面中插入一个显示当前内容大纲的浮动组件，可[去 greasyfork 下载](https://greasyfork.org/zh-CN/scripts/406337-toc-bar)。
 
 目前适配了一些个人经常访问的网站，主要面向技术阅读，知乎/Medium/devto/github 之类。
 
