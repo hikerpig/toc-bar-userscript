@@ -21,6 +21,7 @@
 // @match             *://medium.com/*
 // @match             *://www.infoq.cn/article/*
 // @match             *://towardsdatascience.com/*
+// @match             *://hackernoon.com/*
 // @match             *://css-tricks.com/*
 // @match             *://www.smashingmagazine.com/*/*
 // @match             *://distill.pub/*
@@ -28,6 +29,7 @@
 // @match             *://developer.mozilla.org/*/docs/*
 // @match             *://learning.oreilly.com/library/view/*
 // @match             *://developer.chrome.com/extensions/*
+// @match             *://app.getpocket.com/read/*
 // @run-at            document-idle
 // @grant             GM_getResourceText
 // @grant             GM_addStyle
@@ -78,6 +80,10 @@
     'medium.com': {
       contentSelector: 'article'
     },
+    'hackernoon.com': {
+      contentSelector: 'main',
+      scrollSmoothOffset: -80,
+    },
     'towardsdatascience.com': {
       contentSelector: 'article'
     },
@@ -119,6 +125,9 @@
     'www.infoq.cn': {
       contentSelector: '.article-main',
       scrollSmoothOffset: -107
+    },
+    'app.getpocket.com': {
+      contentSelector: '[role=main]',
     }
   }
 
