@@ -26,6 +26,10 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## v1.5.0 (2020-10-12)
+
+- feat: keep header content hash records to prevent id conflict, close #1
+
 ## v1.4.3 (2020-07-22)
 
 * feat: tocbar style top should not be less than 0 ([8ffc3c1](https://github.com/hikerpig/toc-bar-userscript/commit/8ffc3c1))
