@@ -522,6 +522,13 @@ a.toc-link {
      */
     initTocbot(options) {
       const me = this
+
+      /**
+       * records for existing ids to prevent id conflict (when there are headings of same content)
+       * @type {Object} {[key: string]: number}
+       **/
+      this._tocContentCountCache = {}
+
       const tocbotOptions = Object.assign(
         {},
         {
@@ -546,7 +553,15 @@ a.toc-link {
       tocbot.init(tocbotOptions)
     },
     generateHeaderId(obj, ele) {
-      return `tocbar-${doContentHash(obj.textContent)}`
+      const hash = doContentHash(obj.textContent)
+      let count = 1
+      let resultHash = hash
+      if (this._tocContentCountCache[hash]) {
+        count = this._tocContentCountCache[hash] + 1
+        resultHash = doContentHash(`${hash}-${count}`)
+      }
+      this._tocContentCountCache[hash] = count
+      return `tocbar-${resultHash}`
     },
     /**
      * @method TocBar
