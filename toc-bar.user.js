@@ -227,6 +227,11 @@
   transition: width 0.2s ease;
   color: #333;
   background: #FEFEFE;
+
+  user-select:none;
+  -moz-user-select:none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
 }
 
 .toc-bar.toc-bar--collapsed {
