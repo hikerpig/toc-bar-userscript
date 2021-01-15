@@ -26,6 +26,11 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+# v1.5.1 (2021-01-15)
+
+- make toc-bar text unselectable ([b82e4c1](https://github.com/hikerpig/toc-bar-userscript/commit/b82e4c1e5085f15d0fdcd07f03eae045f67cec56))
+  感谢 [MarkDown down down down](https://greasyfork.org/zh-CN/users/412790-markdown-down-down-down)
+
 ## v1.5.0 (2020-10-12)
 
 - feat: keep header content hash records to prevent id conflict, close #1
