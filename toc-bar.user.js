@@ -1,11 +1,11 @@
 // ==UserScript==
-// @name              Toc Bar, 自动生成文章大纲。知乎、微信公众号等阅读好伴侣
-// @name:en           Toc Bar, auto-generating table of content
+// @name              Toc Bar, auto-generating table of content
+// @name:zh-CN        Toc Bar, 自动生成文章大纲。知乎、微信公众号等阅读好伴侣
 // @author            hikerpig
 // @namespace         https://github.com/hikerpig
 // @license           MIT
-// @description:en    A floating table of content widget
-// @description       自动生成文章大纲目录，在页面右侧展示一个浮动的组件。覆盖常用在线阅读资讯站（技术向）。github/medium/MDN/掘金/简书等
+// @description       A floating table of content widget
+// @description:zh-CN 自动生成文章大纲目录，在页面右侧展示一个浮动的组件。覆盖常用在线阅读资讯站（技术向）。github/medium/MDN/掘金/简书等
 // @version           1.5.1
 // @match             *://www.jianshu.com/p/*
 // @match             *://cdn2.jianshu.io/p/*
