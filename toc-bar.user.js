@@ -26,6 +26,7 @@
 // @match             *://www.smashingmagazine.com/*/*
 // @match             *://distill.pub/*
 // @match             *://github.com/*/*
+// @match             *://github.com/*/issues/*
 // @match             *://developer.mozilla.org/*/docs/*
 // @match             *://learning.oreilly.com/library/view/*
 // @match             *://developer.chrome.com/extensions/*
@@ -102,14 +103,20 @@
     'github.com': {
       contentSelector() {
         const README_SEL = '#readme'
-        const WIKI_CONTENT_SEL = '.repository-content'
-        const matchedSel = [README_SEL, WIKI_CONTENT_SEL].find((sel) => {
-          return !!document.querySelector(README_SEL)
+        const WIKI_CONTENT_SEL = '#wiki-body'
+        const ISSUE_CONTENT_SEL = '.comment'
+        const matchedSel = [README_SEL, ISSUE_CONTENT_SEL, WIKI_CONTENT_SEL].find((sel) => {
+          return !!document.querySelector(sel)
         })
 
         if (matchedSel) return matchedSel
 
         return false
+      },
+      scrollSmoothOffset() {
+        const isIssueDetail = /\/issues\//.test(location.pathname)
+        if (isIssueDetail) return -60
+        return 0
       },
       initialTop: 500,
     },
@@ -160,6 +167,9 @@
         const contentSelector = siteSetting.contentSelector()
         if (!contentSelector) return
         siteSetting = {...siteSetting, contentSelector}
+      }
+      if (typeof siteSetting.scrollSmoothOffset === 'function') {
+        siteSetting.scrollSmoothOffset = {...siteSetting, scrollSmoothOffset: siteSetting.scrollSmoothOffset()}
       }
       console.log('[toc-bar] found site info for', siteInfo.siteName)
       return siteSetting
