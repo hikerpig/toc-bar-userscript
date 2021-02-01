@@ -26,6 +26,10 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+# v1.6.0 (2021-02-1)
+
+* feat: adjust detection on github issues and wiki, close #2 ([6d6c26b](https://github.com/hikerpig/toc-bar-userscript/commit/6d6c26b)), closes [#2](https://github.com/hikerpig/toc-bar-userscript/issues/2)
+
 # v1.5.1 (2021-01-15)
 
 - make toc-bar text unselectable ([b82e4c1](https://github.com/hikerpig/toc-bar-userscript/commit/b82e4c1e5085f15d0fdcd07f03eae045f67cec56))
