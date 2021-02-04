@@ -254,6 +254,9 @@
     return true
   }
 
+  /** 宽度，也用于计算拖动时的最小 right */
+  const TOC_BAR_WIDTH = 340
+
   // ---------------- TocBar ----------------------
   const TOC_BAR_STYLE = `
 .toc-bar {
@@ -263,7 +266,7 @@
   z-index: 9000;
   right: 5px;
   top: 80px;
-  width: 340px;
+  width: ${TOC_BAR_WIDTH}px;
   font-size: 14px;
   box-sizing: border-box;
   padding: 0 10px 10px 0;
@@ -525,7 +528,7 @@ a.toc-link {
         const deltaX = e.pageX - dragState.startMouseX
         const deltaY = e.pageY - dragState.startMouseY
         // 要换算为 right 数字
-        const newRight = dragState.startElementDisToRight - deltaX
+        const newRight = Math.max(30 - TOC_BAR_WIDTH, dragState.startElementDisToRight - deltaX)
         const newTop = Math.max(0, dragState.startPositionY + deltaY)
         Object.assign(dragState, {
           curTop: newTop,
