@@ -26,6 +26,11 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## v1.7.0 (2021-02-04)
+
+* feat: optimize for github issues, related #2 ([27ce1b0](https://github.com/hikerpig/toc-bar-userscript/commit/27ce1b0)), closes [#2](https://github.com/hikerpig/toc-bar-userscript/issues/2)
+* feat: optimize right edge distance while dragging ([ca20775](https://github.com/hikerpig/toc-bar-userscript/commit/ca20775))
+
 # v1.6.0 (2021-02-1)
 
 * feat: adjust detection on github issues and wiki, close #2 ([6d6c26b](https://github.com/hikerpig/toc-bar-userscript/commit/6d6c26b)), closes [#2](https://github.com/hikerpig/toc-bar-userscript/issues/2)
