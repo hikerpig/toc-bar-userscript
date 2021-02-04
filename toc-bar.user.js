@@ -100,25 +100,55 @@
     'web.dev': {
       contentSelector: '#content'
     },
-    'github.com': {
-      contentSelector() {
-        const README_SEL = '#readme'
-        const WIKI_CONTENT_SEL = '#wiki-body'
-        const ISSUE_CONTENT_SEL = '.comment'
-        const matchedSel = [README_SEL, ISSUE_CONTENT_SEL, WIKI_CONTENT_SEL].find((sel) => {
-          return !!document.querySelector(sel)
-        })
+    'github.com': function () {
+      const README_SEL = '#readme'
+      const WIKI_CONTENT_SEL = '#wiki-body'
+      const ISSUE_CONTENT_SEL = '.comment .comment-body'
 
-        if (matchedSel) return matchedSel
+      let matchedContainer
+      const matchedSel = [README_SEL, ISSUE_CONTENT_SEL, WIKI_CONTENT_SEL].find((sel) => {
+        const c = document.querySelector(sel)
+        if (c) {
+          matchedContainer = c
+          return true
+        }
+      })
 
-        return false
-      },
-      scrollSmoothOffset() {
-        const isIssueDetail = /\/issues\//.test(location.pathname)
-        if (isIssueDetail) return -60
-        return 0
-      },
-      initialTop: 500,
+      if (!matchedSel) {
+        return {
+          contentSelect: false,
+        }
+      }
+
+      const isIssueDetail = /\/issues\//.test(location.pathname)
+      const ISSUE_DETAIL_HEADING_OFFSET = 60
+
+      /** Ugly hack for github issues */
+      const onClick = isIssueDetail ? function (e) {
+        const href = e.target.getAttribute('href')
+        const header = document.body.querySelector(href)
+        if (header) {
+          const rect = header.getBoundingClientRect()
+          const currentWindowScrollTop = document.documentElement.scrollTop
+          const scrollY = rect.y + currentWindowScrollTop - ISSUE_DETAIL_HEADING_OFFSET
+
+          window.scrollTo(0, scrollY)
+
+          location.hash = href
+
+          e.preventDefault()
+          e.stopPropagation()
+        }
+      }: null
+
+      return {
+        contentSelector: matchedSel,
+        hasInnerContainers: isIssueDetail ? true: false,
+        scrollSmoothOffset: isIssueDetail ? -ISSUE_DETAIL_HEADING_OFFSET: 0,
+        headingsOffset: isIssueDetail ? ISSUE_DETAIL_HEADING_OFFSET: 0,
+        initialTop: 500,
+        onClick,
+      }
     },
     'developer.mozilla.org': {
       contentSelector: '#content'
@@ -159,7 +189,11 @@
   function getPageTocOptions() {
     let siteInfo = getSiteInfo()
     if (siteInfo) {
-      let siteSetting = siteInfo.siteSetting
+      if (typeof siteInfo.siteSetting === 'function') {
+        return siteInfo.siteSetting()
+      }
+
+      let siteSetting = { ...siteInfo.siteSetting }
       if (siteSetting.shouldShow && !siteSetting.shouldShow()) {
         return
       }
@@ -169,8 +203,9 @@
         siteSetting = {...siteSetting, contentSelector}
       }
       if (typeof siteSetting.scrollSmoothOffset === 'function') {
-        siteSetting.scrollSmoothOffset = {...siteSetting, scrollSmoothOffset: siteSetting.scrollSmoothOffset()}
+        siteSetting.scrollSmoothOffset = siteSetting.scrollSmoothOffset()
       }
+
       console.log('[toc-bar] found site info for', siteInfo.siteName)
       return siteSetting
     }
@@ -613,8 +648,8 @@ a.toc-link {
 
   function main() {
     const options = getPageTocOptions()
-    if (options) {
 
+    if (options) {
       const tocBar = new TocBar(options)
       tocBar.initTocbot(options)
       tocBar.refreshStyle()
