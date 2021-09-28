@@ -26,6 +26,10 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## v1.8.0 (2021-09-28)
+
+* feat: Add light/dark mode toggle, #6 ([cd0e0b8](https://github.com/hikerpig/toc-bar-userscript/commit/cd0e0b8)), closes [#6](https://github.com/hikerpig/toc-bar-userscript/issues/6)
+
 ## v1.7.0 (2021-02-04)
 
 * feat: optimize for github issues, related #2 ([27ce1b0](https://github.com/hikerpig/toc-bar-userscript/commit/27ce1b0)), closes [#2](https://github.com/hikerpig/toc-bar-userscript/issues/2)
