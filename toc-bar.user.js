@@ -14,11 +14,13 @@
 // @match             *://mp.weixin.qq.com/s*
 // @match             *://cnodejs.org/topic/*
 // @match             *://*zcfy.cc/article/*
-// @match             *://juejin.im/entry/*
+// @match             *://juejin.cn/post/*
 // @match             *://dev.to/*/*
 // @exclude           *://dev.to/settings/*
 // @match             *://web.dev/*
 // @match             *://medium.com/*
+// @exclude           *://medium.com/media/*
+// @match             *://itnext.io/*
 // @match             *://www.infoq.cn/article/*
 // @match             *://towardsdatascience.com/*
 // @match             *://hackernoon.com/*
@@ -257,10 +259,14 @@
   /** 宽度，也用于计算拖动时的最小 right */
   const TOC_BAR_WIDTH = 340
 
+  const TOC_BAR_DEFAULT_ACTIVE_COLOR = '#54BC4B';
+
   // ---------------- TocBar ----------------------
   const TOC_BAR_STYLE = `
 .toc-bar {
-  --toc-bar-active-color: #54BC4B;
+  --toc-bar-active-color: ${TOC_BAR_DEFAULT_ACTIVE_COLOR};
+  --toc-bar-text-color: #333;
+  --toc-bar-background-color: #FEFEFE;
 
   position: fixed;
   z-index: 9000;
@@ -273,13 +279,22 @@
   box-shadow: 0 1px 3px #DDD;
   border-radius: 4px;
   transition: width 0.2s ease;
-  color: #333;
-  background: #FEFEFE;
+  color: var(--toc-bar-text-color);
+  background: var(--toc-bar-background-color);
 
   user-select:none;
   -moz-user-select:none;
   -webkit-user-select: none;
   -ms-user-select: none;
+}
+
+.toc-bar[colorscheme="dark"] {
+  --toc-bar-text-color: #fafafa;
+  --toc-bar-background-color: #333;
+}
+.toc-bar[colorscheme="dark"] svg {
+  fill: var(--toc-bar-text-color);
+  stroke: var(--toc-bar-text-color);
 }
 
 .toc-bar.toc-bar--collapsed {
@@ -326,6 +341,17 @@
   max-width: 100%;
   max-height: 100%;
   vertical-align: top;
+}
+
+.toc-bar__actions {
+  align-items: center;
+}
+.toc-bar__actions .toc-bar__icon-btn {
+  margin-left: 1em;
+}
+
+.toc-bar__scheme {
+  transform: translateY(-1px) scale(1.1);
 }
 
 .toc-bar__header-left {
@@ -407,7 +433,7 @@ a.toc-link {
 }
 
 .toc-link::before {
-  background-color: #EEE;
+  background-color: var(--toc-bar-background-color);
   content: ' ';
   display: inline-block;
   height: inherit;
@@ -424,6 +450,8 @@ a.toc-link {
 `
 
   const TOCBOT_CONTAINTER_CLASS = 'toc-bar__toc'
+
+  const DARKMODE_KEY = 'tocbar-darkmode'
 
   /**
    * @class
@@ -461,6 +489,14 @@ a.toc-link {
     if (GM_getValue('tocbar-hidden', false)) {
       this.toggle(false)
     }
+
+    const isDark = Boolean(window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches);
+    /** @type {Boolean} */
+    this.isDarkMode = isDark
+
+    if (GM_getValue(DARKMODE_KEY, false)) {
+      this.toggleScheme(true)
+    }
   }
 
   const REFRESH_ICON = `<svg t="1593614403764" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="5002" width="200" height="200"><path d="M918 702.8 918 702.8c45.6-98.8 52-206 26-303.6-30-112.4-104-212.8-211.6-273.6L780 23.2l-270.8 70.8 121.2 252.4 50-107.6c72.8 44.4 122.8 114.4 144 192.8 18.8 70.8 14.4 147.6-18.8 219.6-42 91.2-120.8 153.6-210.8 177.6-13.2 3.6-26.4 6-39.6 8l56 115.6c5.2-1.2 10.4-2.4 16-4C750.8 915.2 860 828.8 918 702.8L918 702.8M343.2 793.2c-74-44.4-124.8-114.8-146-194-18.8-70.8-14.4-147.6 18.8-219.6 42-91.2 120.8-153.6 210.8-177.6 14.8-4 30-6.8 45.6-8.8l-55.6-116c-7.2 1.6-14.8 3.2-22 5.2-124 33.2-233.6 119.6-291.2 245.6-45.6 98.8-52 206-26 303.2l0 0.4c30.4 113.2 105.2 214 213.6 274.8l-45.2 98 270.4-72-122-252L343.2 793.2 343.2 793.2M343.2 793.2 343.2 793.2z" p-id="5003"></path></svg>`
@@ -480,6 +516,38 @@ a.toc-link {
 </svg>
 `
 
+  const LIGHT_ICON = `
+  <?xml version="1.0" encoding="iso-8859-1"?>
+  <!-- Generator: Adobe Illustrator 18.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+  <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN" "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
+  <svg version="1.1" id="Capa_1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px"
+     viewBox="0 0 181.328 181.328" style="enable-background:new 0 0 181.328 181.328;" xml:space="preserve" style="transform: translateY(-1px);">
+  <g>
+    <path d="M118.473,46.308V14.833c0-4.142-3.358-7.5-7.5-7.5H70.357c-4.142,0-7.5,3.358-7.5,7.5v31.474
+      C51.621,54.767,44.34,68.214,44.34,83.331c0,25.543,20.781,46.324,46.324,46.324s46.324-20.781,46.324-46.324
+      C136.988,68.215,129.708,54.769,118.473,46.308z M77.857,22.333h25.615v16.489c-4.071-1.174-8.365-1.815-12.809-1.815
+      c-4.443,0-8.736,0.642-12.807,1.814V22.333z M90.664,114.655c-17.273,0-31.324-14.052-31.324-31.324
+      c0-17.272,14.052-31.324,31.324-31.324s31.324,14.052,31.324,31.324C121.988,100.604,107.937,114.655,90.664,114.655z"/>
+    <path d="M40.595,83.331c0-4.142-3.358-7.5-7.5-7.5H7.5c-4.142,0-7.5,3.358-7.5,7.5c0,4.142,3.358,7.5,7.5,7.5h25.595
+      C37.237,90.831,40.595,87.473,40.595,83.331z"/>
+    <path d="M173.828,75.831h-25.595c-4.142,0-7.5,3.358-7.5,7.5c0,4.142,3.358,7.5,7.5,7.5h25.595c4.142,0,7.5-3.358,7.5-7.5
+      C181.328,79.189,177.97,75.831,173.828,75.831z"/>
+    <path d="M44.654,47.926c1.464,1.465,3.384,2.197,5.303,2.197c1.919,0,3.839-0.732,5.303-2.197c2.929-2.929,2.929-7.678,0-10.606
+      L37.162,19.222c-2.929-2.93-7.678-2.929-10.606,0c-2.929,2.929-2.929,7.678,0,10.606L44.654,47.926z"/>
+    <path d="M136.674,118.735c-2.93-2.929-7.678-2.928-10.607,0c-2.929,2.929-2.928,7.678,0,10.607l18.1,18.098
+      c1.465,1.464,3.384,2.196,5.303,2.196c1.919,0,3.839-0.732,5.304-2.197c2.929-2.929,2.928-7.678,0-10.607L136.674,118.735z"/>
+    <path d="M44.654,118.736l-18.099,18.098c-2.929,2.929-2.929,7.677,0,10.607c1.464,1.465,3.384,2.197,5.303,2.197
+      c1.919,0,3.839-0.732,5.303-2.197l18.099-18.098c2.929-2.929,2.929-7.677,0-10.606C52.332,115.807,47.583,115.807,44.654,118.736z"
+      />
+    <path d="M131.371,50.123c1.919,0,3.839-0.732,5.303-2.196l18.1-18.098c2.929-2.929,2.929-7.678,0-10.607
+      c-2.929-2.928-7.678-2.929-10.607-0.001l-18.1,18.098c-2.929,2.929-2.929,7.678,0,10.607
+      C127.532,49.391,129.452,50.123,131.371,50.123z"/>
+    <path d="M90.664,133.4c-4.142,0-7.5,3.358-7.5,7.5v25.595c0,4.142,3.358,7.5,7.5,7.5c4.142,0,7.5-3.358,7.5-7.5V140.9
+      C98.164,136.758,94.806,133.4,90.664,133.4z"/>
+  </g>
+  </svg>
+`
+
   TocBar.prototype = {
     /**
      * @method TocBar
@@ -494,7 +562,10 @@ a.toc-link {
       </div>
       <div class="toc-bar__title hidden-when-collapsed">TOC Bar</div>
     </div>
-    <div class="toc-bar__actions hidden-when-collapsed">
+    <div class="toc-bar__actions flex hidden-when-collapsed">
+      <div class="toc-bar__scheme toc-bar__icon-btn" title="Toggle Light/Dark Mode">
+        ${LIGHT_ICON}
+      </div>
       <div class="toc-bar__refresh toc-bar__icon-btn" title="Refresh TOC">
         ${REFRESH_ICON}
       </div>
@@ -510,6 +581,11 @@ a.toc-link {
       const refreshElement = header.querySelector('.toc-bar__refresh')
       refreshElement.addEventListener('click', () => {
         tocbot.refresh()
+      })
+
+      const toggleSchemeElement = header.querySelector('.toc-bar__scheme')
+      toggleSchemeElement.addEventListener('click', () => {
+        this.toggleScheme()
       })
       // ---------------- header drag ----------------------
       const dragState = {
@@ -640,10 +716,25 @@ a.toc-link {
       }
       this.visible = shouldShow
     },
+    /**
+     * Toggle light/dark scheme
+     * @method TocBar
+     */
+    toggleScheme(isDark) {
+      const isDarkMode = typeof isDark === 'undefined' ? !this.isDarkMode: isDark
+      this.element.setAttribute('colorscheme', isDarkMode ? 'dark': 'light')
+      console.log('[toc-bar] toggle scheme', isDarkMode)
+      this.isDarkMode = isDarkMode
+
+      GM_setValue(DARKMODE_KEY, isDarkMode)
+      this.refreshStyle()
+    },
     refreshStyle() {
       const themeColor = guessThemeColor()
-      if (themeColor) {
+      if (themeColor && !this.isDarkMode) {
         this.element.style.setProperty('--toc-bar-active-color', themeColor);
+      } else if (this.isDarkMode) {
+        this.element.style.setProperty('--toc-bar-active-color', TOC_BAR_DEFAULT_ACTIVE_COLOR);
       }
     },
   }
