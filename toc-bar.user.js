@@ -446,6 +446,10 @@ a.toc-link {
 .is-active-link::before {
   background-color: var(--toc-bar-active-color);
 }
+
+@media print {
+  .toc-bar__no-print { display: none !important; }
+}
 /* end tocbot related */
 `
 
@@ -464,7 +468,7 @@ a.toc-link {
 
     this.element = document.createElement('div')
     this.element.id = 'toc-bar'
-    this.element.classList.add('toc-bar')
+    this.element.classList.add('toc-bar', 'toc-bar__no-print')
     document.body.appendChild(this.element)
 
     /** @type {Boolean} */
