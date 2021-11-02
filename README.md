@@ -26,6 +26,11 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## v1.8.1 (2021-11-02)
+
+* feat: add support to indepth.dev ([e502408](https://github.com/hikerpig/toc-bar-userscript/commit/e502408))
+* feat: hide toc-bar in print mode, close #7 ([7b3b149](https://github.com/hikerpig/toc-bar-userscript/commit/7b3b149)), closes [#7](https://github.com/hikerpig/toc-bar-userscript/issues/7)
+
 ## v1.8.0 (2021-09-28)
 
 * feat: Add light/dark mode toggle, #6 ([cd0e0b8](https://github.com/hikerpig/toc-bar-userscript/commit/cd0e0b8)), closes [#6](https://github.com/hikerpig/toc-bar-userscript/issues/6)
