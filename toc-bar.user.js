@@ -33,6 +33,7 @@
 // @match             *://learning.oreilly.com/library/view/*
 // @match             *://developer.chrome.com/extensions/*
 // @match             *://app.getpocket.com/read/*
+// @match             *://indepth.dev/posts/*
 // @run-at            document-idle
 // @grant             GM_getResourceText
 // @grant             GM_addStyle
@@ -167,7 +168,10 @@
     },
     'app.getpocket.com': {
       contentSelector: '[role=main]',
-    }
+    },
+    'indepth.dev': {
+      contentSelector: '.content',
+    },
   }
 
   function getSiteInfo() {
