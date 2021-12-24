@@ -26,6 +26,10 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## v1.9.0 (2021-12-24)
+
+* feat: don't generate 'toc**' header id for github.com ([bb37969](https://github.com/hikerpig/toc-bar-userscript/commit/bb37969))
+
 ## v1.8.1 (2021-11-02)
 
 * feat: add support to indepth.dev ([e502408](https://github.com/hikerpig/toc-bar-userscript/commit/e502408))
