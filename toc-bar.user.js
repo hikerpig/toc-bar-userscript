@@ -46,6 +46,20 @@
 // ==/UserScript==
 
 (function () {
+  /**
+   * @typedef {Object} SiteSetting
+   * @property {string} contentSelector
+   * @property {string} siteName
+   * @property {Object} style
+   * @property {Number} scrollSmoothOffset
+   * @property {Number} initialTop
+   * @property {Number} headingsOffset
+   * @property {() => Boolean} shouldShow
+   * @property {(ele) => HTMLElement} findHeaderId
+   * @property {(e) => void} onClick
+   */
+
+  /** @type {{[key: string]: Partial<SiteSetting>}} */
   const SITE_SETTINGS = {
     jianshu: {
       contentSelector: '.ouvJEz',
@@ -108,11 +122,9 @@
       const WIKI_CONTENT_SEL = '#wiki-body'
       const ISSUE_CONTENT_SEL = '.comment .comment-body'
 
-      let matchedContainer
       const matchedSel = [README_SEL, ISSUE_CONTENT_SEL, WIKI_CONTENT_SEL].find((sel) => {
         const c = document.querySelector(sel)
         if (c) {
-          matchedContainer = c
           return true
         }
       })
@@ -145,12 +157,24 @@
       }: null
 
       return {
+        siteName: 'github.com',
         contentSelector: matchedSel,
         hasInnerContainers: isIssueDetail ? true: false,
         scrollSmoothOffset: isIssueDetail ? -ISSUE_DETAIL_HEADING_OFFSET: 0,
         headingsOffset: isIssueDetail ? ISSUE_DETAIL_HEADING_OFFSET: 0,
         initialTop: 500,
         onClick,
+        findHeaderId(ele) {
+          let id
+          let anchor = ele.querySelector('.anchor')
+          if (anchor) id = anchor.getAttribute('id')
+
+          if (!anchor) {
+            anchor = ele.querySelector('a')
+            if (anchor) id = anchor.hash.replace(/^#/, '')
+          }
+          return id
+        },
       }
     },
     'developer.mozilla.org': {
@@ -462,7 +486,14 @@ a.toc-link {
   const DARKMODE_KEY = 'tocbar-darkmode'
 
   /**
+   * @typedef {Object} TocBarOptions
+   * @property {String} [siteName]
+   * @property {Number} [initialTop]
+   */
+
+  /**
    * @class
+   * @param {TocBarOptions} options
    */
   function TocBar(options={}) {
     this.options = options
@@ -486,6 +517,7 @@ a.toc-link {
     tocElement.classList.add(TOCBOT_CONTAINTER_CLASS)
     this.element.appendChild(tocElement)
 
+    POSITION_STORAGE.checkCache()
     const cachedPosition = POSITION_STORAGE.get(options.siteName)
     if (!isEmpty(cachedPosition)) {
       this.element.style.top = `${Math.max(0, cachedPosition.top)}px`
@@ -588,7 +620,11 @@ a.toc-link {
 
       const refreshElement = header.querySelector('.toc-bar__refresh')
       refreshElement.addEventListener('click', () => {
-        tocbot.refresh()
+        try {
+          tocbot.refresh()
+        } catch (error) {
+          console.warn('error in tocbot.refresh', error)
+        }
       })
 
       const toggleSchemeElement = header.querySelector('.toc-bar__scheme')
@@ -623,7 +659,7 @@ a.toc-link {
         this.element.style.top = `${newTop}px`
       }
 
-      const onMouseUp = (e) => {
+      const onMouseUp = () => {
         Object.assign(dragState, {
           isDragging: false,
         })
@@ -671,13 +707,18 @@ a.toc-link {
         {
           tocSelector: `.${TOCBOT_CONTAINTER_CLASS}`,
           scrollSmoothOffset: options.scrollSmoothOffset || 0,
-          // hasInnerContainers: true,
           headingObjectCallback(obj, ele) {
             // if there is no id on the header element, add one that derived from hash of header title
             if (!ele.id) {
-              const newId = me.generateHeaderId(obj, ele)
-              ele.setAttribute('id', newId)
-              obj.id = newId
+              let newId
+              if (options.findHeaderId) {
+                newId = options.findHeaderId(ele)
+              }
+              if (!newId) {
+                newId = me.generateHeaderId(obj, ele)
+                ele.setAttribute('id', newId)
+              }
+              if (newId) obj.id = newId
             }
             return obj
           },
@@ -687,7 +728,11 @@ a.toc-link {
         options
       )
       // console.log('tocbotOptions', tocbotOptions);
-      tocbot.init(tocbotOptions)
+      try {
+        tocbot.init(tocbotOptions)
+      } catch (error) {
+        console.warn('error in tocbot.init', error)
+      }
     },
     generateHeaderId(obj, ele) {
       const hash = doContentHash(obj.textContent)
