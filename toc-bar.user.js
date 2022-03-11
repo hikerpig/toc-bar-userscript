@@ -6,7 +6,7 @@
 // @license           MIT
 // @description       A floating table of content widget
 // @description:zh-CN 自动生成文章大纲目录，在页面右侧展示一个浮动的组件。覆盖常用在线阅读资讯站（技术向）。github/medium/MDN/掘金/简书等
-// @version           1.9.1
+// @version           1.9.2
 // @match             *://www.jianshu.com/p/*
 // @match             *://cdn2.jianshu.io/p/*
 // @match             *://zhuanlan.zhihu.com/p/*
@@ -15,6 +15,7 @@
 // @match             *://cnodejs.org/topic/*
 // @match             *://*zcfy.cc/article/*
 // @match             *://juejin.cn/post/*
+// @match             *://juejin.cn/book/*
 // @match             *://dev.to/*/*
 // @exclude           *://dev.to/settings/*
 // @match             *://web.dev/*
@@ -86,8 +87,14 @@
     qq: {
       contentSelector: '.rich_media_content',
     },
-    'juejin.im': {
-      contentSelector: '.entry-public-main',
+    'juejin.cn': function() {
+      let contentSelector = '.entry-public-main' // post
+      if (/\/book\//.test(location.pathname)) {
+        contentSelector = '.book-body'
+      }
+      return {
+        contentSelector,
+      }
     },
     'dev.to': {
       contentSelector: 'article',

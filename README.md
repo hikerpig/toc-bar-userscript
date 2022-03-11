@@ -26,6 +26,10 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## v1.9.2 (2022-03-11)
+
+- add support for 'gitlab.com' and 'juejin.cn/book'
+
 ## v1.9.0 (2021-12-24)
 
 * feat: don't generate 'toc**' header id for github.com ([bb37969](https://github.com/hikerpig/toc-bar-userscript/commit/bb37969))
