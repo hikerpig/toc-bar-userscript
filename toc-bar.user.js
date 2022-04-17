@@ -371,7 +371,6 @@
 
   position: fixed;
   z-index: 9000;
-  font-family: 'Roboto';
   right: 5px;
   top: 80px;
   width: ${TOC_BAR_WIDTH}px;
@@ -495,7 +494,6 @@
 
 .toc-list {
   padding-inline-start: 0;
-  margin: 0em;
 }
 
 .toc-bar__toc > .toc-list {
@@ -509,14 +507,11 @@
   list-style: none;
   padding-left: 8px;
   position: static;
-  margin: auto;
-  font-size: 1em;
 }
 
 a.toc-link {
   color: currentColor;
   height: 100%;
-  text-decoration: auto;
 }
 
 .is-collapsible {
@@ -694,14 +689,6 @@ a.toc-link {
         this.toggle()
         GM_setValue('tocbar-hidden', !this.visible)
       })
-      // toggle keyboard shortcut: alt+t
-      let tocBar = this;
-      document.addEventListener('keydown', function(e) {
-        // pressed alt+t
-        if (e.key == "t" && e.altKey) {
-          tocBar.toggle()
-        }
-      }, false);
       this.logoSvg = toggleElement.querySelector('svg')
 
       const refreshElement = header.querySelector('.toc-bar__refresh')
@@ -795,7 +782,7 @@ a.toc-link {
           scrollSmoothOffset: options.scrollSmoothOffset || 0,
           headingObjectCallback(obj, ele) {
             // if there is no id on the header element, add one that derived from hash of header title
-            // remove ¶ notation from headers
+            // remove ¶ and # notation in headers text
             obj.textContent = obj.textContent.replace(/¶|#/g, '');
             if (!ele.id) {
               let newId
