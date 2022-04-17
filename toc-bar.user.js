@@ -6,7 +6,7 @@
 // @license           MIT
 // @description       A floating table of content widget
 // @description:zh-CN 自动生成文章大纲目录，在页面右侧展示一个浮动的组件。覆盖常用在线阅读资讯站（技术向）。github/medium/MDN/掘金/简书等
-// @version           1.9.3
+// @version           1.9.4
 // @match             *://www.jianshu.com/p/*
 // @match             *://cdn2.jianshu.io/p/*
 // @match             *://zhuanlan.zhihu.com/p/*
@@ -22,6 +22,20 @@
 // @match             *://medium.com/*
 // @exclude           *://medium.com/media/*
 // @match             *://itnext.io/*
+// @match             *://python-patterns.guide/*
+// @match             *://www.mysqltutorial.org/*
+// @match             *://en.wikipedia.org/*
+// @match             *://vuejs.org/*
+// @match             *://docs.python.org/*
+// @match             *://packaging.python.org/*
+// @match             *://*.readthedocs.io/*
+// @match             *://docs.djangoproject.com/*
+// @match             *://www.cnblogs.com/*
+// @match             *://bigsearcher.com/*
+// @match             *://ffmpeg.org/*
+// @match             *://www.ruanyifeng.com/*
+// @match             *://stackoverflow.blog/*
+// @match             *://realpython.com/*
 // @match             *://www.infoq.cn/article/*
 // @match             *://towardsdatascience.com/*
 // @match             *://hackernoon.com/*
@@ -106,6 +120,9 @@
     'medium.com': {
       contentSelector: 'article'
     },
+    'docs.djangoproject.com': {
+      contentSelector: '#docs-content'
+    },
     'hackernoon.com': {
       contentSelector: 'main',
       scrollSmoothOffset: -80,
@@ -124,6 +141,12 @@
     },
     'web.dev': {
       contentSelector: '#content'
+    },
+    'python-patterns.guide': {
+      contentSelector: '.section',
+    },
+    'www.mysqltutorial.org': {
+      contentSelector: 'article',
     },
     'github.com': function () {
       const README_SEL = '#readme'
@@ -208,12 +231,50 @@
       contentSelector:  '.file-content',
       scrollSmoothOffset: -40
     },
+    'docs.celeryproject.org': {
+      contentSelector: '[role=main]',
+    },
+    'docs.python.org': {
+      contentSelector: '[role=main]',
+    },
+    'packaging.python.org': {
+      contentSelector: '[role=main]',
+    },
+    'readthedocs.io': {
+      contentSelector: '[role=main]',
+    },
+    'bigsearcher.com': {
+      contentSelector: 'body',
+    },
+    'ffmpeg.org': {
+      contentSelector: '#page-content-wrapper',
+    },
+    'www.ruanyifeng.com': {
+      contentSelector: 'article',
+    },
+    'realpython.com': {
+      contentSelector: '.main-content',
+    },
+    'en.wikipedia.org': {
+      contentSelector: '#content',
+    },
+    'www.cnblogs.com': {
+      contentSelector: '#main',
+    },
+    'stackoverflow.blog': {
+      contentSelector: 'article',
+    },
+    'vuejs.org': {
+      contentSelector: 'main > div',
+    },
   }
 
   function getSiteInfo() {
     let siteName
     if (SITE_SETTINGS[location.hostname]) {
-      siteName = location.hostname
+      siteName = location.hostname;
+    } else if (location.hostname.indexOf('readthedocs.io') > -1) {
+      siteName = 'readthedocs.io';
     } else {
       const match = location.href.match(
         /([\d\w]+)\.(com|cn|net|org|im|io|cc|site|tv)/i
@@ -721,6 +782,8 @@ a.toc-link {
           scrollSmoothOffset: options.scrollSmoothOffset || 0,
           headingObjectCallback(obj, ele) {
             // if there is no id on the header element, add one that derived from hash of header title
+            // remove ¶ and # notation in headers text
+            obj.textContent = obj.textContent.replace(/¶|#/g, '');
             if (!ele.id) {
               let newId
               if (options.findHeaderId) {
