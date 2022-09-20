@@ -55,7 +55,7 @@
 // @grant             GM_addStyle
 // @grant             GM_setValue
 // @grant             GM_getValue
-// @require           https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.11.1/tocbot.min.js
+// @require           https://cdnjs.cloudflare.com/ajax/libs/tocbot/4.18.2/tocbot.min.js
 // @icon              https://raw.githubusercontent.com/hikerpig/toc-bar-userscript/master/toc-logo.svg
 // @homepageURL       https://github.com/hikerpig/toc-bar-userscript
 // @downloadURL       https://raw.githubusercontent.com/hikerpig/toc-bar-userscript/master/toc-bar.user.js
@@ -73,6 +73,7 @@
    * @property {() => Boolean} shouldShow
    * @property {(ele) => HTMLElement} findHeaderId
    * @property {(e) => void} onClick
+   * @property {(tocBar: TocBar) => void} onInit
    */
 
   /** @type {{[key: string]: Partial<SiteSetting>}} */
@@ -209,7 +210,12 @@
       }
     },
     'developer.mozilla.org': {
-      contentSelector: '#content'
+      contentSelector: '#content',
+      onInit() {
+        setTimeout(() => {
+          tocbot.refresh()
+        }, 2000)
+      }
     },
     'learning.oreilly.com': {
       contentSelector: '#sbo-rt-content'
@@ -771,6 +777,7 @@ a.toc-link {
     },
     /**
      * @method TocBar
+     * @param {SiteSetting} options
      */
     initTocbot(options) {
       const me = this
@@ -811,6 +818,9 @@ a.toc-link {
       // console.log('tocbotOptions', tocbotOptions);
       try {
         tocbot.init(tocbotOptions)
+        if (options.onInit) {
+          options.onInit(this)
+        }
       } catch (error) {
         console.warn('error in tocbot.init', error)
       }
