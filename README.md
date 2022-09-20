@@ -26,6 +26,11 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## v1.9.5 (2022-09-20)
+
+* do some hacks to ensure MDN page toc anchor active as the page scrolls [#14](https://github.com/hikerpig/toc-bar-userscript/issues/14) ([c071ac1](https://github.com/hikerpig/toc-bar-userscript/commit/c071ac1ceb738b1fbe281770db931bd3119ce07d))
+* reset font size ([910e196](https://github.com/hikerpig/toc-bar-userscript/commit/910e196caf6aef23a06953540945e5f9d1ee6706))
+
 ## v1.9.2 (2022-03-11)
 
 - add support for 'gitlab.com' and 'juejin.cn/book'
