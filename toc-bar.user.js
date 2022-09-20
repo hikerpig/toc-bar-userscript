@@ -548,6 +548,12 @@ a.toc-link {
   background-color: var(--toc-bar-active-color);
 }
 
+.toc-list-item,
+.toc-link {
+  font-size: 1em; /* reset font size */
+}
+
+
 @media print {
   .toc-bar__no-print { display: none !important; }
 }
