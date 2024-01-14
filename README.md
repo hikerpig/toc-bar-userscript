@@ -26,6 +26,10 @@ The logo uses [Mexellent](https://www.1001fonts.com/mexcellent-font.html) font m
 
 # CHANGELOG
 
+## [1.9.6](https://github.com/hikerpig/toc-bar-userscript/compare/v1.9.5...v1.9.6) (2024-01-14)
+
+* fix: github readme selector [#17](https://github.com/hikerpig/toc-bar-userscript/issues/17) ([544e8ee](https://github.com/hikerpig/toc-bar-userscript/commit/544e8eec6ecd76a245b2d793a7d16ff9cc2e296b))
+
 ## v1.9.5 (2022-09-20)
 
 * do some hacks to ensure MDN page toc anchor active as the page scrolls [#14](https://github.com/hikerpig/toc-bar-userscript/issues/14) ([c071ac1](https://github.com/hikerpig/toc-bar-userscript/commit/c071ac1ceb738b1fbe281770db931bd3119ce07d))
