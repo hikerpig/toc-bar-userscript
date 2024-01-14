@@ -150,7 +150,7 @@
       contentSelector: 'article',
     },
     'github.com': function () {
-      const README_SEL = '#readme'
+      const README_SEL = '.entry-content'
       const WIKI_CONTENT_SEL = '#wiki-body'
       const ISSUE_CONTENT_SEL = '.comment .comment-body'
 
